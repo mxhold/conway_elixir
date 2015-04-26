@@ -1,9 +1,9 @@
 defmodule Conway do
-  def run(initial_state_string) do
+  def run(initial_state_string, iterations \\ 1) do
     initial_state_string
     |> String.split("\n")
     |> Enum.map(&string_to_boolean_list/1)
-    |> next
+    |> next(iterations)
     |> boolean_list_to_string
     |> Kernel.<>("\n")
   end
@@ -32,11 +32,17 @@ defmodule Conway do
   def boolean_to_char(false), do: "0"
   def boolean_to_char(true), do: "1"
 
-  def next(boolean_grid) do
-    boolean_grid
-    |> map_with_moore_neighbors(
-      fn alive, neighbors ->
-        alive_next(alive: alive, alive_neighbors: neighbors |> Enum.count(&(&1)))
+  def next(boolean_grid, iterations) do
+    Enum.reduce(
+      1..iterations,
+      boolean_grid,
+      fn _, acc ->
+        acc
+        |> map_with_moore_neighbors(
+          fn alive, neighbors ->
+            alive_next(alive: alive, alive_neighbors: neighbors |> Enum.count(&(&1)))
+          end
+        )
       end
     )
   end
