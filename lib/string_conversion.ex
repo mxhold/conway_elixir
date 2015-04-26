@@ -11,6 +11,9 @@ defmodule StringConversion do
     |> Enum.map(&char_to_boolean/1)
   end
 
+  def char_to_boolean("0"), do: false
+  def char_to_boolean("1"), do: true
+
   def boolean_grid_to_multiline_string(grid) do
     grid
     |> Enum.map(&boolean_list_to_string/1)
@@ -23,9 +26,6 @@ defmodule StringConversion do
     |> Enum.map(&boolean_to_char/1)
     |> Enum.join
   end
-
-  def char_to_boolean("0"), do: false
-  def char_to_boolean("1"), do: true
 
   def boolean_to_char(false), do: "0"
   def boolean_to_char(true), do: "1"
